@@ -1,0 +1,42 @@
+# Läuft alle 6 Stunden auf GitHub (kostenlos) und veröffentlicht den Report als Webseite über GitHub Pages.
+# Einrichtung: Repository auf GitHub anlegen, Code pushen, dann unter Settings -> Pages -> Source "GitHub Actions" wählen.
+name: Buylist-Arbitrage
+
+on:
+  schedule:
+    - cron: '15 */6 * * *'   # alle 6 Stunden (00:15, 06:15, 12:15, 18:15 UTC)
+  workflow_dispatch:        # manuell über den "Run workflow"-Button startbar
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Preisvergleich ausführen
+        run: node run.js --force
+      - name: Startseite anlegen
+        run: cp output/report.html output/index.html
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: output
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

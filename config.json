@@ -1,0 +1,24 @@
+{
+  "_hinweis": "Alle Preise in EUR. Erklärung der Schlüssel in README.md.",
+
+  "priceBasis": "trend",
+  "minBuyPrice": 0.50,
+  "minMarginAbs": 0.50,
+  "minMarginPct": 0.15,
+  "maxQtyPerCard": 8,
+
+  "cardmarketShippingPerSeller": 2.00,
+  "assumedCardsPerSeller": 4,
+  "shippingToVendor": 0.00,
+  "_shippingToVendorHinweis": "TrierMTG übernimmt den Versand ab 50 EUR Verkaufswert. Bei kleineren Sendungen hier z.B. 5.00 eintragen.",
+  "assumedCardsPerVendorBatch": 50,
+
+  "cardmarketLanguageId": 1,
+  "_cardmarketLanguageHinweis": "1 = Englisch, 3 = Deutsch. Wird in die Cardmarket-Links als Filter eingebaut.",
+  "cardmarketMinCondition": 3,
+  "_cardmarketMinConditionHinweis": "1 = Mint, 2 = Near Mint, 3 = Excellent (TrierMTG-Mindestzustand), 4 = Good.",
+
+  "cacheHours": 12,
+  "vendors": ["triermtg"],
+  "language": "de"
+}

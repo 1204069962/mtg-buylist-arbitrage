@@ -1,0 +1,13 @@
+{
+  "name": "mtg-buylist-arbitrage",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Vergleicht Ankaufslisten (TrierMTG) mit Cardmarket-Preisen und findet profitable Karten.",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node run.js",
+    "fetch": "node run.js --fetch-only",
+    "compare": "node run.js --no-fetch"
+  },
+  "engines": { "node": ">=20" }
+}
