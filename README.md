@@ -1,5 +1,10 @@
 # Buylist-Arbitrage: TrierMTG vs. Cardmarket
 
+**Aktueller Report (wird alle 6 Stunden automatisch erneuert):**
+https://1204069962.github.io/mtg-buylist-arbitrage/
+
+Wants-Liste zum Import bei Cardmarket: https://1204069962.github.io/mtg-buylist-arbitrage/wants.txt
+
 Vergleicht die Ankaufsliste von TrierMTG (mtgkartenankauf.de) automatisch mit den aktuellen
 Cardmarket-Preisen und listet alle Karten, bei denen der Ankaufspreis spürbar über dem
 Cardmarket-Preis liegt.
