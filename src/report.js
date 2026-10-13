@@ -93,7 +93,7 @@ a{color:inherit}.links a{color:var(--acc)}
 .bad{display:inline-block;background:var(--warn);color:#fff;border-radius:50%;width:16px;height:16px;line-height:16px;text-align:center;font-size:11px;font-weight:700;cursor:help}
 .new{background:var(--acc);color:#fff;border-radius:4px;padding:0 5px;font-size:11px;font-weight:700}
 tr.sus td{opacity:.6}body.hidesus tr.sus{display:none!important}body.onlynew tr:not(.isnew){display:none!important}
-.sub{display:none;color:var(--muted);font-size:12px;white-space:normal}.ctl{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.sub{display:none;color:var(--muted);font-size:12px;white-space:normal}.ctl{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:8px}.ctl label{white-space:nowrap}
 @media(max-width:760px){.opt,.opt2{display:none}.sub{display:block}td.name{min-width:0}th,td{padding:6px 5px}.kpi div{flex:1 1 40%}}
 @media(max-width:1100px){.opt2{display:none}}.foot{color:var(--muted);margin-top:16px;font-size:12px;white-space:normal}
 </style></head><body>
