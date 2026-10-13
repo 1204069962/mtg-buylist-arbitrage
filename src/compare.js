@@ -30,7 +30,8 @@ function compare(buylist, scry, priceGuide, cfg) {
 
   for (const row of buylist.rows) {
     if (row.priceEN == null || row.priceEN <= 0) continue;
-    const nk = normName(row.name);
+    // Meld-Karten bei TrierMTG: "Name // Meldname (Top)" -> Vorderseite reicht
+    const nk = normName(row.name.replace(/s*((Top|Bottom))s*$/i, '').split(' // ')[0]);
     for (const s of row.sets) {
       combos++;
       if (!s.code) { unmatched.push({ name: row.name, priceEN: row.priceEN, set: s, reason: 'kein Set-Code' }); continue; }
@@ -38,6 +39,7 @@ function compare(buylist, scry, priceGuide, cfg) {
       const tryCodes = [];
       if (s.timeshifted && code === 'tsp') tryCodes.push('tsb');
       tryCodes.push(code);
+      if (code === 'csp') tryCodes.push('cst');   // Coldsnap-Themendeck-Nachdrucke (Brainstorm, Dark Ritual ...)
       if (s.imageSet && s.imageSet !== code) tryCodes.push(s.imageSet);
       tryCodes.push('p' + code, code.replace(/^p/, ''));
       let cands = [];
@@ -95,7 +97,8 @@ function compare(buylist, scry, priceGuide, cfg) {
         margin,
         marginPct: cost > 0 ? margin / cost : null,
         maxQty: Math.min(cfg.maxQtyPerCard || 8, buylist.vendor.maxQty || 8),
-        variantMatch: variant || best.foilOnly,
+        variantMatch: variant || best.foilOnly || best.c.cmGuessed,
+        cmGuessed: !!best.c.cmGuessed,
         matchedVia: how,
         vendorImage: s.image,
         vendorProductId: s.vendorProductId,

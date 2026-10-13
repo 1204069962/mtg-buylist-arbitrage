@@ -15,7 +15,9 @@ Cardmarket-Preis liegt.
 2. **Cardmarket Price Guide** laden (öffentliche Datei von Cardmarket, alle ~128.000 Magic-Singles
    mit Trend-, Low- und Durchschnittspreisen; wird einmal pro Nacht aktualisiert).
 3. **Scryfall-Kartendaten** laden (liefert für jeden Druck die Cardmarket-Produkt-ID, damit
-   Kartenname + Set eindeutig einem Cardmarket-Produkt zugeordnet werden kann).
+   Kartenname + Set eindeutig einem Cardmarket-Produkt zugeordnet werden kann). Fehlt die ID bei
+   Scryfall (häufig bei "The List"), wird sie über die öffentliche Cardmarket-Produktliste nachgeschlagen;
+   solche Treffer sind im Report mit Warnzeichen markiert.
 4. Für jede Karte/Set-Kombination: regulären Druck bestimmen, Cardmarket-Preis nachschlagen,
    Marge berechnen, nach Schwellenwerten filtern.
 5. Ergebnis schreiben nach `output/`:

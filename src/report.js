@@ -14,7 +14,7 @@ function esc(s) {
 }
 
 function writeCsv(deals, file) {
-  const cols = ['name', 'set', 'setName', 'cn', 'rarity', 'buyEN', 'buyDE', 'cost', 'trend', 'low', 'avg7', 'avg30', 'margin', 'marginNet', 'marginSolo', 'marginPct', 'maxQty', 'potential', 'variantMatch', 'cardmarketId', 'cardmarketUrl', 'scryfallUrl', 'vendorImage'];
+  const cols = ['name', 'set', 'setName', 'cn', 'rarity', 'buyEN', 'buyDE', 'cost', 'trend', 'low', 'avg7', 'avg30', 'margin', 'marginNet', 'marginSolo', 'marginPct', 'maxQty', 'potential', 'variantMatch', 'cmGuessed', 'cardmarketId', 'cardmarketUrl', 'scryfallUrl', 'vendorImage'];
   const lines = [cols.join(';')];
   for (const d of deals) {
     lines.push(cols.map(c => {
