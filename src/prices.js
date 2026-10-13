@@ -81,6 +81,7 @@ async function loadScryfall(cfg, opts = {}) {
       promo: !!c.promo, promoTypes: c.promo_types || [], frameEffects: c.frame_effects || [],
       border: c.border_color, fullArt: !!c.full_art, textless: !!c.textless, variation: !!c.variation,
       finishes: c.finishes || [], booster: !!c.booster, lang: c.lang, eur: c.prices && c.prices.eur ? parseFloat(c.prices.eur) : null,
+      usd: c.prices && c.prices.usd ? parseFloat(c.prices.usd) : null,
       released: c.released_at, rarity: c.rarity, cmGuessed: false,
     };
     if (!c.cardmarket_id) { pending.push({ c, slim }); continue; }

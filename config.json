@@ -1,24 +1,30 @@
 {
   "_hinweis": "Alle Preise in EUR. Erklärung der Schlüssel in README.md.",
-
   "priceBasis": "trend",
-  "minBuyPrice": 0.50,
-  "minMarginAbs": 0.50,
+  "minBuyPrice": 0.5,
+  "minMarginAbs": 0.5,
   "minMarginPct": 0.15,
   "maxQtyPerCard": 8,
-
-  "cardmarketShippingPerSeller": 2.00,
+  "cardmarketShippingPerSeller": 2,
   "assumedCardsPerSeller": 4,
-  "shippingToVendor": 0.00,
+  "shippingToVendor": 0,
   "_shippingToVendorHinweis": "TrierMTG übernimmt den Versand ab 50 EUR Verkaufswert. Bei kleineren Sendungen hier z.B. 5.00 eintragen.",
   "assumedCardsPerVendorBatch": 50,
-
   "cardmarketLanguageId": 1,
   "_cardmarketLanguageHinweis": "1 = Englisch, 3 = Deutsch. Wird in die Cardmarket-Links als Filter eingebaut.",
   "cardmarketMinCondition": 3,
   "_cardmarketMinConditionHinweis": "1 = Mint, 2 = Near Mint, 3 = Excellent (TrierMTG-Mindestzustand), 4 = Good.",
-
   "cacheHours": 12,
-  "vendors": ["triermtg"],
-  "language": "de"
+  "vendors": [
+    "triermtg"
+  ],
+  "language": "de",
+  "liveUrl": "https://1204069962.github.io/mtg-buylist-arbitrage/",
+  "usdEurRate": 0.86,
+  "_usdEurRateHinweis": "Umrechnung des US-Preises (TCGplayer via Scryfall) als zweite Meinung für die Plausibilitätsprüfung.",
+  "suspiciousFactor": 1.6,
+  "_suspiciousFactorHinweis": "Ankaufspreis > Faktor x höchster Marktindikator => als auffällig (?) markiert: entweder noch nicht gesenkter Ankaufspreis (lukrativ) oder andere Version gemeint.",
+  "minBuylistRows": 1000,
+  "minMatchRate": 0.9,
+  "_absicherungHinweis": "Unter diesen Werten bricht der Lauf ab, damit kein leerer Report veröffentlicht wird (GitHub meldet den Fehler per Mail)."
 }

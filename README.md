@@ -27,8 +27,24 @@ Cardmarket-Preis liegt.
      "einzeln" (voller Versand auf diese eine Karte)
    - `deals.csv` – dieselben Daten für Excel (Semikolon-getrennt)
    - `wants.txt` – Deckliste im Format `8 Kartenname` zum Import in eine Cardmarket-Wants-Liste
+   - `feed.xml` – RSS-Feed mit den seit dem letzten Lauf neu hinzugekommenen Deals (in einer RSS-App
+     abonnieren, dann kommt eine Meldung, sobald etwas Neues auftaucht)
    - `nicht-zugeordnet.csv` – Karten, die keinem Cardmarket-Produkt zugeordnet werden konnten
    - `verlauf.csv` – ein Eintrag pro Lauf (Anzahl Deals, Gesamtpotenzial)
+
+### Markierungen im Report
+
+| Zeichen | Bedeutung |
+|---|---|
+| **NEU** | Deal ist seit dem letzten veröffentlichten Stand neu hinzugekommen. Eine Zahl statt NEU zeigt, wie sich die Marge verändert hat. |
+| **?** | Ankaufspreis liegt mehr als das 1,6-fache über allen Marktindikatoren (Cardmarket trend/avg7/avg30 und US-Preis). Entweder ein noch nicht gesenkter Ankaufspreis (dann besonders lukrativ) oder eine andere Version ist gemeint. Version und Bild prüfen. |
+| **Warnzeichen** | Reguläre Version nicht eindeutig oder Cardmarket-Produkt nur über den Namen geschätzt. Bild bei TrierMTG mit dem Cardmarket-Produkt vergleichen. |
+
+### Absicherung
+
+Liefert TrierMTG weniger als 1.000 Zeilen oder lassen sich weniger als 90 % zuordnen (z.B. weil sich der
+Seitenaufbau geändert hat), bricht der Lauf mit Fehler ab und der alte Report bleibt stehen. Bei den
+automatischen Läufen auf GitHub schickt GitHub in dem Fall eine E-Mail an den Kontoinhaber.
 
 ## Starten
 

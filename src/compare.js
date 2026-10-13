@@ -76,6 +76,12 @@ function compare(buylist, scry, priceGuide, cfg) {
 
       const cost = best.price;
       const margin = row.priceEN - cost;
+      // Plausibilität: Liegt der Ankaufspreis weit über allen Marktindikatoren (Cardmarket trend/avg7/avg30
+      // und US-Preis in EUR), ist meist der Ankaufspreis veraltet/falsch oder die Version nicht die gemeinte.
+      const usdEur = best.c.usd != null ? best.c.usd * (cfg.usdEurRate || 0.86) : null;
+      const refs = [best.pf.trend, best.pf.avg7, best.pf.avg30, usdEur].filter(v => v != null && v > 0);
+      const refMax = refs.length ? Math.max(...refs) : cost;
+      const suspicious = row.priceEN > refMax * (cfg.suspiciousFactor || 1.6);
       results.push({
         vendor: buylist.vendor.id,
         name: row.name,
@@ -99,6 +105,9 @@ function compare(buylist, scry, priceGuide, cfg) {
         maxQty: Math.min(cfg.maxQtyPerCard || 8, buylist.vendor.maxQty || 8),
         variantMatch: variant || best.foilOnly || best.c.cmGuessed,
         cmGuessed: !!best.c.cmGuessed,
+        suspicious,
+        refMax,
+        usdEur,
         matchedVia: how,
         vendorImage: s.image,
         vendorProductId: s.vendorProductId,
