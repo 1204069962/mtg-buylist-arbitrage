@@ -113,6 +113,7 @@ function compare(buylist, scry, priceGuide, cfg) {
         vendorProductId: s.vendorProductId,
         cardmarketUrl: `https://www.cardmarket.com/${cfg.language || 'de'}/Magic/Products?idProduct=${best.c.cm}&language=${cfg.cardmarketLanguageId || 1}&minCondition=${cfg.cardmarketMinCondition || 3}&isSigned=N&isAltered=N`,
         scryfallUrl: `https://scryfall.com/card/${best.c.set}/${encodeURIComponent(best.c.cn)}`,
+        image: best.c.img,
       });
     }
   }

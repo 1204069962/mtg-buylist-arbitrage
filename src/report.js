@@ -14,7 +14,7 @@ function esc(s) {
 }
 
 function writeCsv(deals, file) {
-  const cols = ['name', 'set', 'setName', 'cn', 'rarity', 'buyEN', 'buyDE', 'cost', 'trend', 'low', 'avg7', 'avg30', 'usdEur', 'margin', 'marginNet', 'marginSolo', 'marginPct', 'maxQty', 'potential', 'variantMatch', 'cmGuessed', 'suspicious', 'isNew', 'marginDelta', 'cardmarketId', 'cardmarketUrl', 'scryfallUrl', 'vendorImage'];
+  const cols = ['name', 'set', 'setName', 'cn', 'rarity', 'buyEN', 'buyDE', 'cost', 'trend', 'low', 'avg7', 'avg30', 'usdEur', 'margin', 'marginNet', 'marginSolo', 'marginPct', 'maxQty', 'potential', 'variantMatch', 'cmGuessed', 'suspicious', 'isNew', 'marginDelta', 'cardmarketId', 'cardmarketUrl', 'scryfallUrl', 'image', 'vendorImage'];
   const lines = [cols.join(';')];
   for (const d of deals) {
     lines.push(cols.map(c => {
@@ -53,7 +53,7 @@ function writeHtml(deals, meta, cfg, file) {
   const rows = deals.map((d, i) => `
 <tr class="${d.suspicious ? 'sus' : ''} ${d.isNew ? 'isnew' : ''}">
 <td class="opt">${i + 1}</td>
-<td class="name"><a href="${d.cardmarketUrl}" target="_blank" rel="noopener">${esc(d.name)}</a> ${flags(d)}<div class="sub">${d.set} #${esc(d.cn)} &middot; Ankauf ${eur(d.buyEN)} &middot; CM ${eur(d.cost)}</div></td>
+<td class="name"><a href="${d.cardmarketUrl}" target="_blank" rel="noopener" class="pv"${d.image ? ` data-img="${esc(d.image)}"` : ''}${d.vendorImage ? ` data-vimg="${esc(d.vendorImage)}"` : ''} data-cap="${esc(d.setName)} #${esc(d.cn)}">${esc(d.name)}</a> ${flags(d)}<div class="sub">${d.set} #${esc(d.cn)} &middot; Ankauf ${eur(d.buyEN)} &middot; CM ${eur(d.cost)}</div></td>
 <td class="opt"><span class="set" title="${esc(d.setName)}">${d.set}</span> <small>#${esc(d.cn)}</small></td>
 <td class="r opt">${eur(d.buyEN)}</td>
 <td class="r opt2">${eur(d.buyDE)}</td>
@@ -90,6 +90,10 @@ th{background:var(--head);position:sticky;top:0;cursor:pointer;text-align:left}t
 td.name{white-space:normal;min-width:180px}.strong{font-weight:600;color:var(--acc)}.ok{color:var(--acc)}.muted{color:var(--muted)}.warn{color:var(--warn)}
 .set{font-family:ui-monospace,monospace;font-size:12px;border:1px solid var(--line);border-radius:4px;padding:0 4px}
 a{color:inherit}.links a{color:var(--acc)}
+#pv{position:fixed;z-index:50;display:none;pointer-events:none;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px;box-shadow:0 8px 30px rgba(0,0,0,.35)}
+#pv .imgs{display:flex;gap:8px}#pv figure{margin:0;text-align:center;font-size:11px;color:var(--muted);max-width:230px}
+#pv img{display:block;width:220px;height:auto;border-radius:9px;background:var(--head);min-height:300px}#pv figcaption{margin-top:4px;white-space:normal}
+@media(hover:none){#pv{display:none!important}}
 .bad{display:inline-block;background:var(--warn);color:#fff;border-radius:50%;width:16px;height:16px;line-height:16px;text-align:center;font-size:11px;font-weight:700;cursor:help}
 .new{background:var(--acc);color:#fff;border-radius:4px;padding:0 5px;font-size:11px;font-weight:700}
 tr.sus td{opacity:.6}body.hidesus tr.sus{display:none!important}body.onlynew tr:not(.isnew){display:none!important}
@@ -99,9 +103,10 @@ tr.sus td{opacity:.6}body.hidesus tr.sus{display:none!important}body.onlynew tr:
 </style></head><body>
 <h1>Buylist-Arbitrage: ${esc(meta.vendorName)} vs. Cardmarket</h1>
 <div class="meta">Erstellt ${esc(meta.generatedAt)} &middot; Cardmarket Price Guide vom ${esc(meta.priceGuideDate)} &middot; Einkaufsbasis: <b>${esc(cfg.priceBasis)}</b> &middot; Versand Cardmarket: ${eur(cmShipFull)} je Verkäufer, gebündelt auf ${cfg.assumedCardsPerSeller} Karten = ${eur(cmShip)} je Karte &middot; Versand zum Ankäufer: ${eur(vendorShip)} je Karte &middot; Mindestmarge: ${eur(cfg.minMarginAbs)}</div>
-<div class="meta"><b>Cardmarket-Links sind vorgefiltert auf ${esc(langName)}, Zustand mindestens ${esc(condName)}, nicht signiert, nicht verändert.</b> Bitte beim Kauf prüfen, dass der Filter aktiv ist (Cardmarket merkt sich Filter pro Sitzung).</div>
+<div class="meta"><b>Cardmarket-Links sind vorgefiltert auf ${esc(langName)}, Zustand mindestens ${esc(condName)}, nicht signiert, nicht verändert.</b> Bitte beim Kauf prüfen, dass der Filter aktiv ist (Cardmarket merkt sich Filter pro Sitzung). Mit der Maus über den Kartennamen fahren zeigt das Bild der bewerteten Version und daneben das Bild bei ${esc(meta.vendorName)}.</div>
 <div class="kpi"><div>Deals<b>${deals.length}</b></div><div>Neu seit letztem Stand<b>${meta.newCount ?? 0}</b></div><div>Marge pro Karte (Schnitt)<b>${eur(avg)}</b></div><div>Potenzial (je ${cfg.maxQtyPerCard} Stück)<b>${eur(total)}</b></div><div>Zugeordnet<b>${meta.stats.matched} / ${meta.stats.combos}</b></div></div>
 <div class="ctl"><input id="q" placeholder="Filter: Name oder Set" oninput="flt()"> <label><input type="checkbox" id="hs" onchange="document.body.classList.toggle('hidesus',this.checked)"> Auffällige (?) ausblenden</label> <label><input type="checkbox" id="on" onchange="document.body.classList.toggle('onlynew',this.checked)"> nur neue</label> ${meta.liveUrl ? '<a href="feed.xml">RSS-Feed neue Deals</a>' : ''}</div>
+<div id="pv"><div class="imgs"><figure><img id="pvi" alt=""><figcaption id="pvc"></figcaption></figure><figure id="pvf2"><img id="pvv" alt=""><figcaption>Bild bei ${esc(meta.vendorName)}</figcaption></figure></div></div>
 <table id="t"><thead><tr>
 <th class="opt">#</th><th>Karte</th><th class="opt">Set</th><th class="r opt">Ankauf EN</th><th class="r opt2">Ankauf DE</th><th class="r opt">CM ${esc(cfg.priceBasis)}</th><th class="r opt2">CM low</th><th class="r opt2">CM avg7</th><th class="r" title="Ankauf minus Cardmarket-Preis minus Versandanteil, wenn man mehrere Karten beim selben Verkäufer bündelt">Marge gebündelt</th><th class="r opt" title="Marge, wenn man nur diese eine Karte bei einem Verkäufer kauft (voller Versand)">Marge einzeln</th><th class="r opt2">Marge %</th><th class="r opt2">Potenzial x${cfg.maxQtyPerCard}</th><th class="r" title="NEU = seit dem letzten Stand hinzugekommen; Zahl = Änderung der Marge">Neu / Δ</th><th>Links</th>
 </tr></thead><tbody>${rows}</tbody></table>
@@ -110,6 +115,15 @@ tr.sus td{opacity:.6}body.hidesus tr.sus{display:none!important}body.onlynew tr:
 <p>Datenquellen: ${esc(meta.vendorName)} Ankaufsliste (${esc(meta.vendorUrl)}), Cardmarket Price Guide (öffentlich), Scryfall. Keine Gewähr, Preise ändern sich laufend.</p>
 </div>
 <script>
+(function(){
+var pv=document.getElementById('pv'),pi=document.getElementById('pvi'),pc=document.getElementById('pvc'),pvv=document.getElementById('pvv'),f2=document.getElementById('pvf2');
+function move(e){var w=pv.offsetWidth||480,hh=pv.offsetHeight||340,x=e.clientX+18,y=e.clientY+18;if(x+w>window.innerWidth-8)x=e.clientX-w-18;if(y+hh>window.innerHeight-8)y=Math.max(8,window.innerHeight-hh-8);pv.style.left=x+'px';pv.style.top=y+'px';}
+document.addEventListener('mouseover',function(e){var a=e.target.closest&&e.target.closest('a.pv');if(!a)return;var img=a.getAttribute('data-img'),v=a.getAttribute('data-vimg');if(!img&&!v)return;
+if(img){pi.src=img;pi.parentNode.style.display='';}else{pi.parentNode.style.display='none';}pc.textContent='Bewertete Version: '+(a.getAttribute('data-cap')||'');
+if(v){pvv.src=v;f2.style.display='';}else{f2.style.display='none';}pv.style.display='block';move(e);});
+document.addEventListener('mousemove',function(e){if(pv.style.display==='block')move(e);});
+document.addEventListener('mouseout',function(e){var a=e.target.closest&&e.target.closest('a.pv');if(a&&!(e.relatedTarget&&a.contains(e.relatedTarget))){pv.style.display='none';pi.removeAttribute('src');pvv.removeAttribute('src');}});
+})();
 function flt(){var q=document.getElementById('q').value.toLowerCase();var trs=document.querySelectorAll('#t tbody tr');for(var i=0;i<trs.length;i++){trs[i].style.display=trs[i].textContent.toLowerCase().indexOf(q)>=0?'':'none';}}
 function num(s){return parseFloat(s.replace(/\\./g,'').replace(',','.').replace(/[^\\d.-]/g,''));}
 var ths=document.querySelectorAll('#t th');

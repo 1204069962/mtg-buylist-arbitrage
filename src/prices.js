@@ -83,6 +83,7 @@ async function loadScryfall(cfg, opts = {}) {
       finishes: c.finishes || [], booster: !!c.booster, lang: c.lang, eur: c.prices && c.prices.eur ? parseFloat(c.prices.eur) : null,
       usd: c.prices && c.prices.usd ? parseFloat(c.prices.usd) : null,
       released: c.released_at, rarity: c.rarity, cmGuessed: false,
+      img: (c.image_uris && c.image_uris.normal) || (c.card_faces && c.card_faces[0] && c.card_faces[0].image_uris && c.card_faces[0].image_uris.normal) || null,
     };
     if (!c.cardmarket_id) { pending.push({ c, slim }); continue; }
     const prod = products.byId.get(c.cardmarket_id);
